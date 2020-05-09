@@ -1,0 +1,9 @@
+steps:
+  - id: 'init'
+    name: 'ubuntu'
+    args: ['echo', 'hello']
+    waitFor: ['-']
+  - id: 'airflow dag deploy to cloud storage'
+    name: 'gcr.io/cloud-builders/gsutil'
+    args: ['-m', 'rsync', '-p', '-r', './composer/dags/', 'gs://${_COMPOSER_BUCKET}/dags']
+    waitFor: ['init']
